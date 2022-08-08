@@ -1,5 +1,5 @@
 #body{
-    background-color: cadetblue;
+    background-color: #51e3f0;
 }
 #header{
     text-align: center;
@@ -11,4 +11,13 @@
 
 #nameRow:hover{
     filter: brightness(55%);
+}
+
+#errors{
+    text-align: center;
+    background-color: white;
+    border: .25rem solid black;
+    margin-bottom: .25rem;
+    margin-top: .25rem;
+    display: none;
 }

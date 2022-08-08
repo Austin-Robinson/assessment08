@@ -1,6 +1,6 @@
 //base url http://localhost:8080/api/agent
 //Fetch Request
-function init(){
+function displayAgents(){
     getAgents().then(data => renderList(data));
 }
 
@@ -38,7 +38,23 @@ function renderList(agents){
         `;
     });
     tableBodyElement.innerHTML = agentHTML.join('');
+}
 
+function renderErrors(errors){
+    const errorsHtml = errors.map(error => {
+        let html =`<li>${error}</li>`
+        return html;
+    });
+    const errorsHtmlString = `
+        <p> The following errors were found:</p>
+        <ul>
+            ${errorsHtml.join('')}
+        </ul>
+    `;
+    document.getElementById('errors').innerHTML = errorsHtmlString;
+    document.getElementById("errors").style.display = "block";
+
+    
 }
 function getAgentCard(agentId){
     getAgentById(agentId)
@@ -62,45 +78,48 @@ function handleUpdate(agentId){
 function handleDelete(agentId){
     alert("Agent ID: " + agentId);
 }
+function handleSubmit(event){
+    event.preventDefault();
+    document.getElementById("errors").style.display = "none";
 
-init();
+    const agent ={
+        firstName: document.getElementById('firstName').value,
+        middleName: document.getElementById('middleName').value,
+        lastName: document.getElementById('lastName').value,
+        dob: document.getElementById('dob').value,
+        heightInInches: document.getElementById('heightInInches').value ? parseInt(document.getElementById('heightInInches').value) : 0,
+    };  
+    
+    const init ={
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body : JSON.stringify(agent)
+    };
 
-/*fetch('http://localhost:8080/api/agent')
-    .then(response =>{
-        return response.json();
+    fetch('http://localhost:8080/api/agent',init).then(response =>{
+        if(response.status === 201 || response.status === 400){
+            return response.json();
+        }
+        else{
+            return Promise.reject(`Unexpected Status Code: ${response.status}`);
+        }
     })
     .then(data => {
-        console.log(data);
+        if(data.agentId){
+            alert("AGENT ADDED");
+            displayAgents();
+            event.target.reset()/// event target is form
+        }else{
+            //TODO RENDER ERROR MESSAGE
+            
+            renderErrors(data);
+        }
+    })
+    .catch(error => alert(error));
+}
 
-        const tableBodyElement = document.getElementById("tableRows");
-        const agentHTML = data.map(agent => {
-            return `
-            <tr>
-                <td>${agent.firstName}-${agent.middleName}-${agent.lastName}Name</td>
-                <td>${agent.dob}</td>
-                <td>${agent.heightInInches}</td>
-                <td>
-                    <button class="btn btn-primary">update</button>
-                    <button class="btn btn-danger">delete</button>
-                </td>
-            </tr>
-        `;
-        });
-        tableBodyElement.innerHTML = agentHTML.join('');
-    });
-*/
 
-    /*
-      private int agentId;
-    private String firstName;
-    private String middleName;
-    private String lastName;
-    private LocalDate dob;
-    private int heightInInches;
+displayAgents();
 
-    private List<Alias> aliases = new ArrayList<>();
-
-    public List<Alias> getAliases() {
-        return aliases;
-    }
-    */
