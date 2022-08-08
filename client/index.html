@@ -16,43 +16,57 @@
     <div id="header" class="container">
     <h1>Field Agent</h1>
     </div>
+
+
+
+
         <div id="addAgentDiv">
-        <div id="addAgentForm" class="container">
-        <form id="form" class="container" onsubmit="handleSubmit(event)">
-            <div class="form-group">
-                <label for="firstName" class="col-sm-2 col-form-label">First Name:</label>
-                <input id="firstName" name="firstName" type="text"/>
+            
+            <button class="btn btn-primary btn-block" data-toggle="collapse" data-target="#addAgentForm" role="button" aria-expanded="false" aria-controls="addAgentForm">
+                Agent Menu
+            </button>
+            
+            <div id="addAgentForm" class="collapse">
+            <form id="form" onsubmit="handleSubmit(event)">
+                <div class="form-group">
+                    <label for="firstName" class="col-sm-2 col-form-label">First Name:</label>
+                    <input id="firstName" name="firstName" type="text"/>
+                </div>
+                <div class="form-group">
+                    <label for="middleName" class="col-sm-2 col-form-label" >Middle Name:</label>
+                    <input id="middleName" name="middleName" type="text"/>
+                </div>
+                <div class="form-group">
+                    <label for="lastName" class="col-sm-2 col-form-label" >Last Name:</label>
+                    <input id="lastName" name="lastName" type="text"/>
+                </div>
+                <div class="form-group">
+                    <label for="heightInInches" class="col-sm-2 col-form-label" >Height(Inches):</label>
+                    <input id="heightInInches" name="heightInInches" type="number"/>
+                </div>
+                <div class="form-group">
+                    <label for="dob" class="col-sm-2 col-form-label">Date of Birth:</label>
+                    <input id="dob" name="dob" type="date"/>
+                </div>
+                <div>
+                <button type="submit" id="formSubmit" class="btn btn-success">Add Agent</button>
+                <button type="button" class="btn btn-danger" onclick="resetState()" data-toggle="collapse" data-target="#addAgentForm" >
+                    Cancel
+                </button>
+                </div>
+            </form>
+                <div id="errors" class="container">
+                </div>
+                <div id="success" class="container">
+            
+                </div>
             </div>
-            <div class="form-group">
-                <label for="middleName" class="col-sm-2 col-form-label" >Middle Name:</label>
-                <input id="middleName" name="middleName" type="text"/>
-            </div>
-            <div class="form-group">
-                <label for="lastName" class="col-sm-2 col-form-label" >Last Name:</label>
-                <input id="lastName" name="lastName" type="text"/>
-            </div>
-            <div class="form-group">
-                <label for="heightInInches" class="col-sm-2 col-form-label" >Height(Inches):</label>
-                <input id="heightInInches" name="heightInInches" type="number"/>
-            </div>
-            <div class="form-group">
-                <label for="dob" class="col-sm-2 col-form-label">Date of Birth:</label>
-                <input id="dob" name="dob" type="date"/>
-            </div>
-            <div>
-            <button type="submit" id="formSubmit" class="btn btn-success">Add Agent</button>
-            <button type="button" class="btn btn-danger" onclick="resetState()">Cancel</button>
-            </div>
-        </form>
-            <div id="errors" class="container">
-            </div>
-            <div id="success" class="container">
-        
-            </div>
-        </div>
         
     </div>
-    <div class="container">
+
+
+
+    <div id="agentList" class="container">
         <table class="table table-dark table-striped table-bordered">
             <thead class="thead-dark">
                 <th>Name</th>

@@ -36,8 +36,10 @@ function renderList(agents){
             <td>${dob}</td>
             <td>${agent.heightInInches}</td>
             <td>
-                <button onclick="handleUpdate(${agent.agentId})" class="btn btn-primary">update</button>
+                <div>
+                <button onclick="handleUpdate(${agent.agentId})" data-toggle="collapse" data-target="#addAgentForm" class="btn btn-primary">update</button>
                 <button onclick="handleDelete(${agent.agentId})" class="btn btn-danger">delete</button>
+                </div>
             </td>
         </tr>
         `;
@@ -78,6 +80,9 @@ function getAgentCard(agentId){
     
 }
 function handleUpdate(agentId){
+    $('.collapse').collapse({
+        toggle: false
+      })
     const agent = agents.find(agent => agent.agentId === agentId);
     console.log(agent);
 
