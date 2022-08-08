@@ -1,7 +1,12 @@
 //base url http://localhost:8080/api/agent
 //Fetch Request
+let agents = []
+let editAgentId =-1;
 function displayAgents(){
-    getAgents().then(data => renderList(data));
+    getAgents().then(data => {
+        agents = data;
+        renderList(data)
+    });
 }
 
 function getAgents(){
@@ -73,11 +78,47 @@ function getAgentCard(agentId){
     
 }
 function handleUpdate(agentId){
-    alert("Agent ID: " + agentId);    
+    const agent = agents.find(agent => agent.agentId === agentId);
+    console.log(agent);
+
+        document.getElementById('firstName').value = agent.firstName;
+        document.getElementById('middleName').value = agent.middleName;
+        document.getElementById('lastName').value = agent.lastName;
+        document.getElementById('dob').value = agent.dob;
+        document.getElementById('heightInInches').value = agent.heightInInches;
+
+       document.getElementById('formSubmit').innerText = 'Update Agent';
+
+       editAgentId = agentId;
+
+//http://localhost:8080/api/agent
+
+
+
 }
 function handleDelete(agentId){
-    alert("Agent ID: " + agentId);
+
+    const agent = agents.find(agent => agent.agentId === agentId);
+
+    if(confirm(`Delete Agent ${agent.firstName} ${agent.lastName}.`)){
+        const init = {
+            method: 'DELETE'
+        };
+        fetch(`http://localhost:8080/api/agent/${agentId}`,init)
+        .then(response =>{
+            if(response.status === 204){
+                displayAgents();
+                resetState();
+            }else{
+                return Promise.reject(`Unexpected Status Code: ${response.status}`);
+            }
+        }).catch(console.log);
+    }
 }
+
+
+
+
 function handleSubmit(event){
     event.preventDefault();
     document.getElementById("errors").style.display = "none";
@@ -89,7 +130,18 @@ function handleSubmit(event){
         dob: document.getElementById('dob').value,
         heightInInches: document.getElementById('heightInInches').value ? parseInt(document.getElementById('heightInInches').value) : 0,
     };  
-    
+    if(editAgentId != -1){
+        doPut(agent, event)
+    }else{
+    doPost(agent,event);
+    }
+}
+function goToBottom(elementId){
+    const objDiv = document.getElementById(elementId);
+    objDiv.scrollTop = objDiv.scrollHeight;
+}
+
+function doPost(agent,event){
     const init ={
         method: 'POST',
         headers: {
@@ -115,11 +167,54 @@ function handleSubmit(event){
             //TODO RENDER ERROR MESSAGE
             
             renderErrors(data);
+            goToBottom("errors")
         }
     })
     .catch(error => alert(error));
 }
+function resetState(){
+    document.getElementById('formSubmit').innerText = 'Add Agent';
+    document.getElementById('errors').innerHTML ='';
+    document.getElementById('form').reset();
+    editAgentId = -1;
 
+}
+
+function doPut(agent, event){
+    agent.agentId = editAgentId;
+    
+    const init = {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(agent)
+    };
+
+    fetch(`http://localhost:8080/api/agent/${editAgentId}`,init)
+    .then(response => { //404 
+        if(response.status === 204){
+            return null;
+        }
+        else if(response.status === 400){
+            return response.json();
+        }else{
+            return Promise.reject(`Unexpected Status Code: ${response.status}`);
+        }
+    })
+    .then(data => {
+        if(!data){
+            displayAgents();
+            event.target.reset()/// event target is form
+            resetState();
+        }
+        else{
+            console.log(data);
+            renderErrors(data);
+        }
+    })
+    .catch(console.log);
+}
 
 displayAgents();
 

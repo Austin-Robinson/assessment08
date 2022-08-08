@@ -16,8 +16,22 @@
 #errors{
     text-align: center;
     background-color: white;
-    border: .25rem solid black;
+    border: .25rem solid red;
     margin-bottom: .25rem;
     margin-top: .25rem;
     display: none;
+}
+
+#addAgentForm{
+    background-color: white;
+    text-align: center;
+    border: .25rem solid black;
+    margin-bottom: 1rem;
+    margin-top: .25rem;   
+}
+#addAgentDiv{
+    display: block;
+    padding-top: 1rem;
+    padding-left: 30rem;
+    padding-right: 30rem;
 }
