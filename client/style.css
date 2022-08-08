@@ -1,0 +1,14 @@
+#body{
+    background-color: cadetblue;
+}
+#header{
+    text-align: center;
+    background-color: white;
+    border: .25rem solid black;
+    margin-bottom: .25rem;
+    margin-top: .25rem;
+}
+
+#nameRow:hover{
+    filter: brightness(55%);
+}
