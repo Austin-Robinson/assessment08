@@ -1,0 +1,42 @@
+#body{
+    background-color: white;
+}
+#header{
+    text-align: center;
+    background-color: white;
+    border: .25rem solid black;
+    margin-bottom: .25rem;
+    margin-top: .25rem;
+}
+
+#nameRow:hover{
+    filter: brightness(55%);
+}
+
+#errors{
+    text-align: center;
+    background-color: white;
+    border: .25rem solid red;
+    margin-bottom: .25rem;
+    margin-top: .25rem;
+    display: none;
+}
+
+#addAgentForm{
+    background-color: white;
+    text-align: center;
+    margin-bottom: 1rem;
+    margin-top: .25rem;   
+}
+#addAgentDiv{
+    display: block;
+    padding-left: 10em;
+    padding-right: 10em;
+    padding-top: 1rem;
+
+}
+
+#agentList{
+    display: flex;
+    justify-content: center;
+}
